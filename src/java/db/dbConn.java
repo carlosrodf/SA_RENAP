@@ -30,7 +30,7 @@ public class dbConn {
         this.password = "*****";
     }
 
-    private Connection getConexion() {
+    protected Connection getConexion() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {

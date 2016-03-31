@@ -7,6 +7,7 @@ package db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
@@ -21,16 +22,14 @@ public class MatrimonioQuery {
         this.dpi_esposo=dpi_esposo;
     }
     
-    public int inscribir(){
+    public int inscribir() throws SQLException{
         Connection conexion = new dbConn().getConexion();
         if(conexion!=null){
             PreparedStatement query = conexion.prepareStatement("INSERT INTO matrimonio"
-                    + "(segundo_nombre,primer_apellido) "
+                    + "(esposo,esposa) "
                     + "VALUES (?,?);");
-
-            query.setString(1, n1);
-            query.setString(2, n2);            
-            query.setInt(10, 2);
+            query.setInt(1, dpi_esposa);
+            query.setInt(2, dpi_esposo);                        
             return query.executeUpdate();
         }else{
             return -1;

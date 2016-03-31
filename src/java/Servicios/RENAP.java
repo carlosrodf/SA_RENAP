@@ -5,6 +5,7 @@
  */
 package Servicios;
 
+import db.MatrimonioQuery;
 import db.dbConn;
 import java.sql.SQLException;
 import javax.jws.WebService;
@@ -62,14 +63,13 @@ public class RENAP {
     public boolean inscribirMatrimonio(@WebParam(name = "dpi_esposo") int dpi_esposo,
             @WebParam(name = "dpi_esposa") int dpi_esposa) {
 
-        dbConn inf = new dbConn();
+        MatrimonioQuery m = new MatrimonioQuery(dpi_esposo,dpi_esposa);
         try {
-            int res =  inf.inscribirCiudadano(nombre1, nombre2, apellido1, apellido2, fechanac, genero, pais, dpto, municipio);
-            if(res > 0){
-                return true;
-            }else{
-                return false;
-            }
+            int res =  m.inscribir();
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
         } catch (SQLException ex) {
             System.out.println(ex);
             return false;

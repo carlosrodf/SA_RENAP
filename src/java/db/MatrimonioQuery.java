@@ -1,0 +1,40 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package db;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+/**
+ *
+ * @author jose
+ */
+public class MatrimonioQuery {
+    
+    int dpi_esposo,dpi_esposa;
+    
+    public MatrimonioQuery(int dpi_esposo,int dpi_esposa){
+        this.dpi_esposa=dpi_esposa;
+        this.dpi_esposo=dpi_esposo;
+    }
+    
+    public int inscribir(){
+        Connection conexion = new dbConn().getConexion();
+        if(conexion!=null){
+            PreparedStatement query = conexion.prepareStatement("INSERT INTO matrimonio"
+                    + "(segundo_nombre,primer_apellido) "
+                    + "VALUES (?,?);");
+
+            query.setString(1, n1);
+            query.setString(2, n2);            
+            query.setInt(10, 2);
+            return query.executeUpdate();
+        }else{
+            return -1;
+        }        
+    }
+    
+}

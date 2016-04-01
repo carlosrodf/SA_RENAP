@@ -35,7 +35,7 @@ public class RENAP {
      * @return
      */
     @WebMethod(operationName = "Inscribirciudadano")
-    public boolean inscribir(@WebParam(name = "primer_nombre") String nombre1,
+    public boolean inscribirCiudadano(@WebParam(name = "primer_nombre") String nombre1,
             @WebParam(name = "segundo_nombre") String nombre2,
             @WebParam(name = "primer_apellido") String apellido1,
             @WebParam(name = "segundo_apellido") String apellido2,
@@ -47,29 +47,49 @@ public class RENAP {
 
         ServiciosCarlos inf = new ServiciosCarlos();
         try {
-            int res =  inf.inscribirCiudadano(nombre1, nombre2, apellido1, apellido2, fechanac, genero, pais, dpto, municipio);
-            if(res > 0){
-                return true;
-            }else{
-                return false;
-            }
+            int res = inf.inscribirCiudadano(nombre1, nombre2, apellido1, apellido2, fechanac, genero, pais, dpto, municipio);
+            return res > 0;
         } catch (SQLException ex) {
             System.out.println(ex);
             return false;
         }
     }
+
+    @WebMethod(operationName = "ObtenerCertificadoNacimiento")
+    public String obtenerCertificadoNacimiento(@WebParam(name = "correlativo") String correlativo,
+            @WebParam(name = "verificador") String verificador) {
+
+        ServiciosCarlos inf = new ServiciosCarlos();
+        return inf.obtenerCertificadoNacimiento(correlativo, verificador);
+    }
     
+    @WebMethod(operationName = "EmisionDPI")
+    public String EmisionDPI(@WebParam(name = "correlativo") String correlativo,
+            @WebParam(name = "verificador") String verificador) {
+
+        ServiciosCarlos inf = new ServiciosCarlos();
+        return inf.emisionDPI(correlativo, verificador);
+    }
+    
+    @WebMethod(operationName = "ConsultaCiudadana")
+    public String EmisionDPI(@WebParam(name = "DPI") String dpi) {
+
+        ServiciosCarlos inf = new ServiciosCarlos();
+        return inf.consultaDatosCiudadano(dpi);
+    }
+
     @WebMethod(operationName = "InscribirMatrimonio")
     public boolean inscribirMatrimonio(@WebParam(name = "dpi_esposo") int dpi_esposo,
             @WebParam(name = "dpi_esposa") int dpi_esposa) {
 
-        MatrimonioQuery m = new MatrimonioQuery(dpi_esposo,dpi_esposa);
+        MatrimonioQuery m = new MatrimonioQuery(dpi_esposo, dpi_esposa);
         try {
-            int res =  m.inscribir();
-            if(res > 0) 
-                return true;            
-            else 
-                return false;            
+            int res = m.inscribir();
+            if (res > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (SQLException ex) {
             System.out.println(ex);
             return false;

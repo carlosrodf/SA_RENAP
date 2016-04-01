@@ -72,7 +72,7 @@ public class RENAP {
     }
     
     @WebMethod(operationName = "ConsultaCiudadana")
-    public String EmisionDPI(@WebParam(name = "DPI") String dpi) {
+    public String ConsultaCiudadana(@WebParam(name = "DPI") String dpi) {
 
         ServiciosCarlos inf = new ServiciosCarlos();
         return inf.consultaDatosCiudadano(dpi);

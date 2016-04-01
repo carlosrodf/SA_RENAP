@@ -6,7 +6,7 @@
 package Servicios;
 
 import db.MatrimonioQuery;
-import db.dbConn;
+import db.ServiciosCarlos;
 import java.sql.SQLException;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -45,7 +45,7 @@ public class RENAP {
             @WebParam(name = "departamento") String dpto,
             @WebParam(name = "municipio") String municipio) {
 
-        dbConn inf = new dbConn();
+        ServiciosCarlos inf = new ServiciosCarlos();
         try {
             int res =  inf.inscribirCiudadano(nombre1, nombre2, apellido1, apellido2, fechanac, genero, pais, dpto, municipio);
             if(res > 0){

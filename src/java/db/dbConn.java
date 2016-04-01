@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,13 +24,13 @@ public class dbConn {
     private final String url;
     private final String username;
     private final String password;
-    
+
     private final Connection conn;
 
     public dbConn() {
         this.url = "jdbc:mysql://ec2-54-186-237-148.us-west-2.compute.amazonaws.com:3306/mydb";
-        this.username = "*****";
-        this.password = "*****";
+        this.username = "root";
+        this.password = "admin";
         this.conn = getConexion();
     }
 
@@ -46,61 +47,6 @@ public class dbConn {
         } catch (Exception e) {
             System.out.println("No se pudo crear la conexion a la DB\n" + e);
             return null;
-        }
-    }
-
-    public int inscribirCiudadano(String n1, String n2, String a1, String a2, String fecha, String gen, String pais, String dpto, String mun) throws SQLException {
-
-        if (conn != null) {
-            int predpi = generarInscripcion();
-            PreparedStatement query = conn.prepareStatement("INSERT INTO ciudadano"
-                    + "(predpi,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,fecha_nac,genero,pais,departamento,municipio,estado) "
-                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-
-            query.setInt(1, predpi);
-            query.setString(2, n1);
-            query.setString(3, n2);
-            query.setString(4, a1);
-            query.setString(5, a2);
-            query.setString(6, fecha);
-            query.setString(7, gen);
-            query.setString(8, pais);
-            query.setString(9, dpto);
-            query.setString(10, mun);
-            query.setInt(11, 2);
-            int r = query.executeUpdate();
-            return r;
-        } else {
-            return -1;
-        }
-    }
-
-    //CASI TERMINADO
-    private int generarInscripcion() {
-        String correlativo;
-        String verificador;
-
-        try {
-            ejecutar("INSERT INTO correlativos VALUES(null);");
-            correlativo = ejecutarQueryForString("SELECT md5(inc) FROM correlativos ORDER BY inc DESC LIMIT 1;","md5(inc)");
-
-            ejecutar("INSERT INTO verificadores VALUES(null);");
-            verificador = ejecutarQueryForString("SELECT md5(inc) FROM verificadores ORDER BY inc DESC LIMIT 1;","md5(inc)");
-
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO certificado(correlativo,verificador,tipo,valido,contenido) VALUES(?,?,1,1,?)");
-            ps.setString(1, correlativo);
-            ps.setString(2, verificador);
-            ps.setString(3, "Proximamente en cines...");
-            ps.executeUpdate();
-
-            return ejecutarQueryForInt("SELECT idcertificado "
-                    + "FROM certificado " 
-                    + "WHERE correlativo = '" + correlativo + "' "
-                    + "AND verificador = '" + verificador + "';", "idcertificado");
-
-        } catch (SQLException ex) {
-            Logger.getLogger(dbConn.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
         }
     }
 
@@ -125,5 +71,66 @@ public class dbConn {
         ResultSet rs = stmt.executeQuery(query);
         rs.next();
         return rs.getInt(paramName);
+    }
+
+    // RETORNA UN RESULT SET
+    public ResultSet ejecutarQuery(String query) throws SQLException {
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        return rs;
+    }
+
+    // TIPOS DE CERTIFICADO (NACIMIENTO = 1, MATRIMONIO = 2, DEFUNCION = 3)
+    // RETORNA UN ARRAY DE STRINGS CON [id,correlativo,verificador] DEL CERTIFICADO CREADO
+    public String[] generarCertificado(int tipo) {
+        String correlativo;
+        String verificador;
+        int id;
+
+        try {
+            ejecutar("INSERT INTO correlativos VALUES(null);");
+            correlativo = ejecutarQueryForString("SELECT md5(inc) FROM correlativos ORDER BY inc DESC LIMIT 1;", "md5(inc)");
+
+            ejecutar("INSERT INTO verificadores VALUES(null);");
+            verificador = ejecutarQueryForString("SELECT md5(inc) FROM verificadores ORDER BY inc DESC LIMIT 1;", "md5(inc)");
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO certificado(correlativo,verificador,tipo,valido,contenido) VALUES(?,?,1,1,?)");
+            ps.setString(1, correlativo);
+            ps.setString(2, verificador);
+            ps.setString(3, "Proximamente en cines...");
+            ps.executeUpdate();
+
+            id = ejecutarQueryForInt("SELECT idcertificado "
+                    + "FROM certificado "
+                    + "WHERE correlativo = '" + correlativo + "' "
+                    + "AND verificador = '" + verificador + "';", "idcertificado");
+
+            String[] datos = new String[3];
+            datos[0] = id + "";
+            datos[1] = correlativo;
+            datos[2] = verificador;
+
+            return datos;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(dbConn.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+    }
+
+    // RECIBE UNA LISTA DE STRING[2], POSICION 0 NOMBRE DEL CAMPO, POSICION 1 VALOR
+    // SE GUARRDA EN EL CAMPO 'contenido' DE LA ENTIDAD CERTIFICADO
+    public String generarCertificadoHTML(List<String[]> datos) {
+        String cert = "<h1>RENAP</h1>\n";
+        cert += "<table>\n";
+        
+        for(String[] item : datos){
+            cert += "<tr><td>"+item[0]+"</td><td>"+item[1]+"</td></tr>\n";
+        }
+        
+        cert += "</table>\n";
+        
+        return cert;
     }
 }

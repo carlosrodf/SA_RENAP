@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `mydb`.`ciudadano` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`ciudadano` (
   `idciudadano` INT NOT NULL AUTO_INCREMENT,
-  `pre-dpi` INT NOT NULL,
+  `predpi` INT NOT NULL,
   `DPI` VARCHAR(20) NULL,
   `primer_nombre` VARCHAR(45) NULL,
   `segundo_nombre` VARCHAR(45) NULL,
@@ -67,15 +67,15 @@ CREATE TABLE IF NOT EXISTS `mydb`.`ciudadano` (
   `fecha_nac` DATE NULL,
   `genero` VARCHAR(1) NULL,
   `pais` VARCHAR(45) NULL,
-  `departamento` INT NULL,
-  `municipio` INT NULL,
+  `departamento` VARCHAR(45) NULL,
+  `municipio` VARCHAR(45) NULL,
   `estado` INT NULL,
   `padre` INT NULL,
   `madre` INT NULL,
   PRIMARY KEY (`idciudadano`),
   UNIQUE INDEX `DPI_UNIQUE` (`DPI` ASC),
   INDEX `fk_ciudadano_1_idx` (`estado` ASC),
-  UNIQUE INDEX `pre-dpi_UNIQUE` (`pre-dpi` ASC),
+  UNIQUE INDEX `pre-dpi_UNIQUE` (`predpi` ASC),
   INDEX `fk_ciudadano_2_idx` (`padre` ASC),
   INDEX `fk_ciudadano_3_idx` (`madre` ASC),
   CONSTRAINT `fk_ciudadano_1`
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`ciudadano` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_ciudadano_4`
-    FOREIGN KEY (`pre-dpi`)
+    FOREIGN KEY (`predpi`)
     REFERENCES `mydb`.`certificado` (`idcertificado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -109,8 +109,10 @@ DROP TABLE IF EXISTS `mydb`.`matrimonio` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`matrimonio` (
   `esposo` INT NOT NULL,
   `esposa` INT NOT NULL,
+  `certificado` INT NOT NULL,
   PRIMARY KEY (`esposo`, `esposa`),
   INDEX `fk_matrimonio_2_idx` (`esposa` ASC),
+  INDEX `fk_matrimonio_3_idx` (`certificado` ASC),
   CONSTRAINT `fk_matrimonio_1`
     FOREIGN KEY (`esposo`)
     REFERENCES `mydb`.`ciudadano` (`idciudadano`)
@@ -120,6 +122,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`matrimonio` (
     FOREIGN KEY (`esposa`)
     REFERENCES `mydb`.`ciudadano` (`idciudadano`)
     ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_matrimonio_3`
+    FOREIGN KEY (`certificado`)
+    REFERENCES `mydb`.`certificado` (`idcertificado`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

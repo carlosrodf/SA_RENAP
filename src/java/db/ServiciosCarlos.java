@@ -7,6 +7,7 @@ package db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +81,8 @@ public class ServiciosCarlos {
             return "No valido";
         }
     }
-    
-    public boolean validarCertificadoNacimiento(String correlativo, String verificador){
+
+    public boolean validarCertificadoNacimiento(String correlativo, String verificador) {
         String query = "SELECT COUNT(idcertificado) AS valido "
                 + "FROM certificado "
                 + "WHERE correlativo = '" + correlativo + "' "
@@ -95,8 +96,8 @@ public class ServiciosCarlos {
             return false;
         }
     }
-    
-    public String emisionDPI(String correlativo, String verificador){
+
+    public String emisionDPI(String correlativo, String verificador) {
         String dpi;
         try {
             dpi = this.db.getNextDPI();
@@ -105,17 +106,34 @@ public class ServiciosCarlos {
             return "Datos no validos.";
         }
         int predpi = this.db.getIdCertificado(correlativo, verificador);
-        
+
         String query = "UPDATE ciudadano "
-                + "SET DPI = '"+dpi+"' "
+                + "SET DPI = '" + dpi + "' "
                 + "WHERE predpi = " + predpi + ";";
-        
+
         try {
             this.db.ejecutar(query);
         } catch (SQLException ex) {
             return "Datos no validos.";
         }
         return dpi;
+    }
+
+    public String consultaDatosCiudadano(String dpi) {
+        String query = "SELECT * "
+                + "FROM ciudadano "
+                + "WHERE DPI = '" + dpi + "';";
+        try {
+            ResultSet rs = this.db.ejecutarQuery(query);
+            rs.next();
+            List<String[]> datos = new ArrayList<>();
+            datos.add(new String[]{"Nombres:",rs.getString("primer_nombre") + " " + rs.getString("segundo_nombre")});
+            datos.add(new String[]{"Apellidos:",rs.getString("primer_apellido") + " " + rs.getString("segundo_apellido")});
+            return this.db.generarCertificadoHTML(datos);
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosCarlos.class.getName()).log(Level.SEVERE, null, ex);
+            return "Datos no validos.";
+        }
     }
 
 }

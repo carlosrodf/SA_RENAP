@@ -70,6 +70,13 @@ public class RENAP {
         ServiciosCarlos inf = new ServiciosCarlos();
         return inf.emisionDPI(correlativo, verificador);
     }
+    
+    @WebMethod(operationName = "ConsultaCiudadana")
+    public String EmisionDPI(@WebParam(name = "DPI") String dpi) {
+
+        ServiciosCarlos inf = new ServiciosCarlos();
+        return inf.consultaDatosCiudadano(dpi);
+    }
 
     @WebMethod(operationName = "InscribirMatrimonio")
     public boolean inscribirMatrimonio(@WebParam(name = "dpi_esposo") int dpi_esposo,

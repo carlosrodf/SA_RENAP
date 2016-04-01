@@ -7,6 +7,7 @@ package Servicios;
 
 import db.MatrimonioQuery;
 import db.ServiciosCarlos;
+import db.ServiciosJulio;
 import java.sql.SQLException;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -110,5 +111,49 @@ public class RENAP {
             return "";
     }
     
+    @WebMethod(operationName = "ReconocerHijo")
+    public boolean reconocerHijo(@WebParam(name = "dpi_progenitor") String dpi_padre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
+        
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.reconocerHijo(dpi_padre,correlativo,verificador);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+    @WebMethod(operationName = "ReconocerHijo")
+    public boolean reconocerHijo(@WebParam(name = "dpi_padre") String dpi_padre, @WebParam(name="dpi_madre") String dpi_madre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
+        
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.reconocerHijo(dpi_padre,dpi_madre,correlativo,verificador);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+    @WebMethod(operationName = "DeclararBancarrota")
+    public boolean declararBancarrota(@WebParam(name="dpi") String dpi){
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.declararBancarrota(dpi);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
 
 }

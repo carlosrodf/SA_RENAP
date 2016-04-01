@@ -74,4 +74,15 @@ public class ServiciosJulio {
             return -1;
         }
     }
+    public int rehabilitarBancarrota(String dpi) throws SQLException {
+        if (conn != null) {
+            PreparedStatement query = conn.prepareStatement("UPDATE ciudadano SET estado = 1 WHERE dpi = ?;");
+
+            query.setString(1, dpi);
+            int r = query.executeUpdate();
+            return r;
+        } else {
+            return -1;
+        }
+    }
 }

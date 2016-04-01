@@ -155,5 +155,19 @@ public class RENAP {
             return false;
         }
     }
+    @WebMethod(operationName = "RehabilitarBancarrota")
+    public boolean rehabilitarBancarrota(@WebParam(name="dpi") String dpi){
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.rehabilitarBancarrota(dpi);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
 
 }

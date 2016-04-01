@@ -36,4 +36,26 @@ public class MatrimonioQuery {
         }        
     }
     
+    private int Crear_Certificado() throws SQLException{ //preguntar a carlos si relacionamos 
+        dbConn c=new dbConn();      
+        Connection conexion = c.getConexion();
+        if(conexion!=null){            
+            c.ejecutar("INSERT INTO correlativos VALUES(null);");
+            String correlativo = c.ejecutarQueryForString("SELECT md5(inc) FROM correlativos ORDER BY inc DESC LIMIT 1;","md5(inc)");
+
+            c.ejecutar("INSERT INTO verificadores VALUES(null);");
+            String verificador = c.ejecutarQueryForString("SELECT md5(inc) FROM verificadores ORDER BY inc DESC LIMIT 1;","md5(inc)");
+
+            
+            PreparedStatement query = conexion.prepareStatement("INSERT INTO matrimonio"
+                    + "(esposo,esposa) "
+                    + "VALUES (?,?);");
+            query.setInt(1, dpi_esposa);
+            query.setInt(2, dpi_esposo);                        
+            return query.executeUpdate();
+        }else{
+            return -1;
+        } 
+    }
+    
 }

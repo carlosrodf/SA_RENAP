@@ -95,4 +95,23 @@ public class RENAP {
             return false;
         }
     }
+    
+    @WebMethod(operationName = "ObtenerCertificadoMatrimonio")
+    public boolean ObtenerCertificadoMatrimonio(@WebParam(name = "dpi_esposo") int dpi_esposo,
+            @WebParam(name = "dpi_esposa") int dpi_esposa) {        
+            MatrimonioQuery m = new MatrimonioQuery(dpi_esposo,dpi_esposa);
+            //*************************ESTO NO HACE NADA*******************************
+            try {
+                int res =  m.getCertificado();
+                if(res > 0) 
+                    return true;            
+                else 
+                    return false;            
+            } catch (SQLException ex) {
+                System.out.println(ex);
+                return false;
+            }
+    }
+    
+
 }

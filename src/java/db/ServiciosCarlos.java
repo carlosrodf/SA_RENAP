@@ -8,6 +8,8 @@ package db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,8 +29,13 @@ public class ServiciosCarlos {
     
     public int inscribirCiudadano(String n1, String n2, String a1, String a2, String fecha, String gen, String pais, String dpto, String mun) throws SQLException {
 
+        List<String[]> html = new ArrayList<>();
+        html.add(new String[]{"Nombres",n1 + " " + n2});
+        html.add(new String[]{"Apellidos",a1 + " " + a2});
+        html.add(new String[]{"Fecha de nacimiento",fecha});
+        
         if (conn != null) {
-            String[] datos = this.db.generarCertificado(1);
+            String[] datos = this.db.generarCertificado(1,html);
             PreparedStatement query = conn.prepareStatement("INSERT INTO ciudadano"
                     + "(predpi,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,fecha_nac,genero,pais,departamento,municipio,estado) "
                     + "VALUES (?,?,?,?,?,?,?,?,?,?,?);");

@@ -29,8 +29,8 @@ public class dbConn {
 
     public dbConn() {
         this.url = "jdbc:mysql://ec2-54-186-237-148.us-west-2.compute.amazonaws.com:3306/mydb";
-        this.username = "root";
-        this.password = "admin";
+        this.username = "***********";
+        this.password = "***********";
         this.conn = getConexion();
     }
 
@@ -82,7 +82,7 @@ public class dbConn {
 
     // TIPOS DE CERTIFICADO (NACIMIENTO = 1, MATRIMONIO = 2, DEFUNCION = 3)
     // RETORNA UN ARRAY DE STRINGS CON [id,correlativo,verificador] DEL CERTIFICADO CREADO
-    public String[] generarCertificado(int tipo) {
+    public String[] generarCertificado(int tipo, List<String[]> datos) {
         String correlativo;
         String verificador;
         int id;
@@ -94,10 +94,13 @@ public class dbConn {
             ejecutar("INSERT INTO verificadores VALUES(null);");
             verificador = ejecutarQueryForString("SELECT md5(inc) FROM verificadores ORDER BY inc DESC LIMIT 1;", "md5(inc)");
 
+            datos.add(new String[]{"correlativo",correlativo});
+            datos.add(new String[]{"verificador",verificador});
+            
             PreparedStatement ps = conn.prepareStatement("INSERT INTO certificado(correlativo,verificador,tipo,valido,contenido) VALUES(?,?,1,1,?)");
             ps.setString(1, correlativo);
             ps.setString(2, verificador);
-            ps.setString(3, "Proximamente en cines...");
+            ps.setString(3, generarCertificadoHTML(datos));
             ps.executeUpdate();
 
             id = ejecutarQueryForInt("SELECT idcertificado "
@@ -105,12 +108,12 @@ public class dbConn {
                     + "WHERE correlativo = '" + correlativo + "' "
                     + "AND verificador = '" + verificador + "';", "idcertificado");
 
-            String[] datos = new String[3];
-            datos[0] = id + "";
-            datos[1] = correlativo;
-            datos[2] = verificador;
+            String[] retorno = new String[3];
+            retorno[0] = id + "";
+            retorno[1] = correlativo;
+            retorno[2] = verificador;
 
-            return datos;
+            return retorno;
 
         } catch (SQLException ex) {
             Logger.getLogger(dbConn.class.getName()).log(Level.SEVERE, null, ex);

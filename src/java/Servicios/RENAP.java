@@ -169,5 +169,27 @@ public class RENAP {
             return false;
         }
     }
-
+    @WebMethod(operationName = "NotificarDefuncion")
+    public boolean notificarDefuncion(@WebParam(name="dpi") String dpi,@WebParam(name="fecha") String fecha,@WebParam(name="causademuerte") String causamuerte){
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.notificarDefuncion(dpi,fecha,causamuerte);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+    @WebMethod(operationName = "ConsultarTarifario")
+    public String tarifario(){
+        ServiciosJulio j = new ServiciosJulio();
+        
+            return j.tarifario();
+                        
+        
+        
+    }
 }

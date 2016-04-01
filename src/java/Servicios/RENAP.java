@@ -7,6 +7,7 @@ package Servicios;
 
 import db.MatrimonioQuery;
 import db.ServiciosCarlos;
+import db.ServiciosJulio;
 import java.sql.SQLException;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -108,28 +109,85 @@ public class RENAP {
             return "";
     }
     
-    @WebMethod(operationName = "VerificarCertificadoMatrimonio")
-    public boolean VerificarCertificadoMatrimonio(@WebParam(name = "correlativo") String correlativo,
-            @WebParam(name = "verificador") String verficador) {                    
-            ServiciosCarlos s = new ServiciosCarlos();
-            try {                
-                return s.validarCertificadoNacimiento(correlativo, verficador);
-            } catch (Exception ex) {
-                System.out.println(ex);                
-            }
+    @WebMethod(operationName = "ReconocerHijo")
+    public boolean reconocerHijo(@WebParam(name = "dpi_progenitor") String dpi_padre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
+        
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.reconocerHijo(dpi_padre,correlativo,verificador);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
             return false;
+        }
     }
-    
-    @WebMethod(operationName="Divorciar")
-    public int Divorciar(@WebParam(name = "dpi_esposo") String dpi_esposo,
-            @WebParam(name = "dpi_esposa") String dpi_esposa) {        
-            MatrimonioQuery m = new MatrimonioQuery(dpi_esposo,dpi_esposa);            
-            try {                
-                return m.divorciar();                
-            } catch (Exception ex) {
-                System.out.println(ex);                
-            }
-            return -1;
+    @WebMethod(operationName = "ReconocerHijo")
+    public boolean reconocerHijo(@WebParam(name = "dpi_padre") String dpi_padre, @WebParam(name="dpi_madre") String dpi_madre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
+        
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.reconocerHijo(dpi_padre,dpi_madre,correlativo,verificador);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
     }
-
+    @WebMethod(operationName = "DeclararBancarrota")
+    public boolean declararBancarrota(@WebParam(name="dpi") String dpi){
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.declararBancarrota(dpi);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+    @WebMethod(operationName = "RehabilitarBancarrota")
+    public boolean rehabilitarBancarrota(@WebParam(name="dpi") String dpi){
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.rehabilitarBancarrota(dpi);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+    @WebMethod(operationName = "NotificarDefuncion")
+    public boolean notificarDefuncion(@WebParam(name="dpi") String dpi,@WebParam(name="fecha") String fecha,@WebParam(name="causademuerte") String causamuerte){
+        ServiciosJulio j = new ServiciosJulio();
+        try {
+            int res =  j.notificarDefuncion(dpi,fecha,causamuerte);
+            if(res > 0) 
+                return true;            
+            else 
+                return false;            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+    @WebMethod(operationName = "ConsultarTarifario")
+    public String tarifario(){
+        ServiciosJulio j = new ServiciosJulio();
+        
+            return j.tarifario();
+                        
+        
+        
+    }
 }

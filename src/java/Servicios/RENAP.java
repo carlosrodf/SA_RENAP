@@ -79,8 +79,8 @@ public class RENAP {
     }
 
     @WebMethod(operationName = "InscribirMatrimonio")
-    public boolean inscribirMatrimonio(@WebParam(name = "dpi_esposo") int dpi_esposo,
-            @WebParam(name = "dpi_esposa") int dpi_esposa) {
+    public boolean inscribirMatrimonio(@WebParam(name = "dpi_esposo") String dpi_esposo,
+            @WebParam(name = "dpi_esposa") String dpi_esposa) {
 
         MatrimonioQuery m = new MatrimonioQuery(dpi_esposo, dpi_esposa);
         try {
@@ -97,20 +97,17 @@ public class RENAP {
     }
     
     @WebMethod(operationName = "ObtenerCertificadoMatrimonio")
-    public boolean ObtenerCertificadoMatrimonio(@WebParam(name = "dpi_esposo") int dpi_esposo,
-            @WebParam(name = "dpi_esposa") int dpi_esposa) {        
+    public String ObtenerCertificadoMatrimonio(@WebParam(name = "dpi_esposo") String dpi_esposo,
+            @WebParam(name = "dpi_esposa") String dpi_esposa) {        
             MatrimonioQuery m = new MatrimonioQuery(dpi_esposo,dpi_esposa);
             //*************************ESTO NO HACE NADA*******************************
-            try {
-                int res =  m.getCertificado();
-                if(res > 0) 
-                    return true;            
-                else 
-                    return false;            
-            } catch (SQLException ex) {
-                System.out.println(ex);
-                return false;
+            try {                
+                String res =  m.getCertificado();
+                
+            } catch (Exception ex) {
+                System.out.println(ex);                
             }
+            return "";
     }
     
 

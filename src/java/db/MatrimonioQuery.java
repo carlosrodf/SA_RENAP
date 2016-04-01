@@ -33,6 +33,7 @@ public class MatrimonioQuery {
             List<String[]> datos= new ArrayList<>();
             datos.add(new String[]{"DPI Esposo",dpi_esposo+""});
             datos.add(new String[]{"DPI Esposa",dpi_esposa+""});
+            datos.add(new String[]{"Relacion ","Matrimonio"});
             String certificado=c.generarCertificado(2, datos)[0];
             PreparedStatement query = conexion.prepareStatement("INSERT INTO matrimonio"
                     + "(esposo,esposa,certificado) "
@@ -51,10 +52,25 @@ public class MatrimonioQuery {
         Connection conexion = c.getConexion();
         if(conexion!=null){            
             int certificado=c.ejecutarQueryForInt("Select certificado FROM matrimonio where esposa='"+dpi_esposa+"' and esposo='"+dpi_esposo+"'","certificado");
-            ResultSet r =c.ejecutarQuery("SELECT contenido FROM certificado where idcertificado="+certificado);
-            return r.getString(0);
+            String contenido = c.ejecutarQueryForString("SELECT contenido FROM certificado where idcertificado="+certificado, "contenido");            
+            return contenido;
         }else{
             return null;
+        }   
+    }
+    
+   
+
+    public int divorciar() throws SQLException {
+        dbConn c=new dbConn();      
+        Connection conexion = c.getConexion();
+        if(conexion!=null){            
+            int certificado=c.ejecutarQueryForInt("Select certificado FROM matrimonio where esposa='"+dpi_esposa+"' and esposo='"+dpi_esposo+"'","certificado");
+            PreparedStatement query = conexion.prepareStatement("UPDATE certificado set valido=false where idcertificado=?");
+            query.setInt(1, certificado);                       
+            return query.executeUpdate();
+        }else{
+            return -1;
         }   
     }
         

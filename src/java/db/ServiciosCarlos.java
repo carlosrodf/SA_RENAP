@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author carlosrodf
  */
 public class ServiciosCarlos {
-    
+
     private Connection conn;
     private dbConn db;
 
@@ -26,16 +26,16 @@ public class ServiciosCarlos {
         this.db = new dbConn();
         this.conn = db.getConexion();
     }
-    
+
     public int inscribirCiudadano(String n1, String n2, String a1, String a2, String fecha, String gen, String pais, String dpto, String mun) throws SQLException {
 
         List<String[]> html = new ArrayList<>();
-        html.add(new String[]{"Nombres",n1 + " " + n2});
-        html.add(new String[]{"Apellidos",a1 + " " + a2});
-        html.add(new String[]{"Fecha de nacimiento",fecha});
-        
+        html.add(new String[]{"Nombres", n1 + " " + n2});
+        html.add(new String[]{"Apellidos", a1 + " " + a2});
+        html.add(new String[]{"Fecha de nacimiento", fecha});
+
         if (conn != null) {
-            String[] datos = this.db.generarCertificado(1,html);
+            String[] datos = this.db.generarCertificado(1, html);
             PreparedStatement query = conn.prepareStatement("INSERT INTO ciudadano"
                     + "(predpi,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,fecha_nac,genero,pais,departamento,municipio,estado) "
                     + "VALUES (?,?,?,?,?,?,?,?,?,?,?);");
@@ -58,33 +58,64 @@ public class ServiciosCarlos {
         }
     }
 
-    //CASI TERMINADO
-    private int generarInscripcion() {
-        String correlativo;
-        String verificador;
+    public String obtenerCertificadoNacimiento(String correlativo, String verificador) {
+        String query = "SELECT COUNT(idcertificado) AS valido "
+                + "FROM certificado "
+                + "WHERE correlativo = '" + correlativo + "' "
+                + "AND verificador = '" + verificador + "';";
 
         try {
-            this.db.ejecutar("INSERT INTO correlativos VALUES(null);");
-            correlativo = this.db.ejecutarQueryForString("SELECT md5(inc) FROM correlativos ORDER BY inc DESC LIMIT 1;","md5(inc)");
-
-            this.db.ejecutar("INSERT INTO verificadores VALUES(null);");
-            verificador = this.db.ejecutarQueryForString("SELECT md5(inc) FROM verificadores ORDER BY inc DESC LIMIT 1;","md5(inc)");
-
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO certificado(correlativo,verificador,tipo,valido,contenido) VALUES(?,?,1,1,?)");
-            ps.setString(1, correlativo);
-            ps.setString(2, verificador);
-            ps.setString(3, "Proximamente en cines...");
-            ps.executeUpdate();
-
-            return this.db.ejecutarQueryForInt("SELECT idcertificado "
-                    + "FROM certificado " 
-                    + "WHERE correlativo = '" + correlativo + "' "
-                    + "AND verificador = '" + verificador + "';", "idcertificado");
-
+            int valido = this.db.ejecutarQueryForInt(query, "valido");
+            if (valido == 1) {
+                query = "SELECT contenido "
+                        + "FROM certificado "
+                        + "WHERE correlativo = '" + correlativo + "' "
+                        + "AND verificador = '" + verificador + "';";
+                return this.db.ejecutarQueryForString(query, "contenido");
+            } else {
+                return "No valido";
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(dbConn.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
+            Logger.getLogger(ServiciosCarlos.class.getName()).log(Level.SEVERE, null, ex);
+            return "No valido";
         }
     }
     
+    public boolean validarCertificadoNacimiento(String correlativo, String verificador){
+        String query = "SELECT COUNT(idcertificado) AS valido "
+                + "FROM certificado "
+                + "WHERE correlativo = '" + correlativo + "' "
+                + "AND verificador = '" + verificador + "';";
+
+        try {
+            int valido = this.db.ejecutarQueryForInt(query, "valido");
+            return valido == 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosCarlos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public String emisionDPI(String correlativo, String verificador){
+        String dpi;
+        try {
+            dpi = this.db.getNextDPI();
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosCarlos.class.getName()).log(Level.SEVERE, null, ex);
+            return "Datos no validos.";
+        }
+        int predpi = this.db.getIdCertificado(correlativo, verificador);
+        
+        String query = "UPDATE ciudadano "
+                + "SET DPI = '"+dpi+"' "
+                + "WHERE predpi = " + predpi + ";";
+        
+        try {
+            this.db.ejecutar(query);
+        } catch (SQLException ex) {
+            return "Datos no validos.";
+        }
+        return dpi;
+    }
+
 }

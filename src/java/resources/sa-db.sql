@@ -213,3 +213,54 @@ INSERT INTO `mydb`.`tipo_certificado` (`idtipo_certificado`, `nombre`) VALUES (N
 
 COMMIT;
 
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`DPI1`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`DPI1` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI1` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI1` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI1` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI1` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI1` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI1` (`inc`) VALUES (null);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`DPI2`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`DPI2` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI2` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI2` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`DPI2` (`inc`) VALUES (null);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`DPI3`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`DPI3` (`inc`) VALUES (null);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`verificadores`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`verificadores` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`verificadores` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`verificadores` (`inc`) VALUES (null);
+INSERT INTO `mydb`.`verificadores` (`inc`) VALUES (null);
+
+COMMIT;

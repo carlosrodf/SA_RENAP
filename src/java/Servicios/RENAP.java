@@ -105,6 +105,11 @@ public class RENAP {
         return inf.consultaDatosCiudadano(dpi);
     }
 
+     /**    
+     * @param dpi_esposo
+     * @param dpi_esposa
+     * @return true si se logró inscribir el matrimonio, de lo contrario false.
+     */
     @WebMethod(operationName = "InscribirMatrimonio")
     public boolean inscribirMatrimonio(@WebParam(name = "dpi_esposo") String dpi_esposo,
             @WebParam(name = "dpi_esposa") String dpi_esposa) {
@@ -112,17 +117,17 @@ public class RENAP {
         MatrimonioQuery m = new MatrimonioQuery(dpi_esposo, dpi_esposa);
         try {
             int res = m.inscribir();
-            if (res > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return res > 0;
         } catch (SQLException ex) {
             System.out.println(ex);
             return false;
         }
     }
-    
+     /**    
+     * @param dpi_esposo
+     * @param dpi_esposa
+     * @return el certificado de matrimonio en html
+     */
     @WebMethod(operationName = "ObtenerCertificadoMatrimonio")
     public String ObtenerCertificadoMatrimonio(@WebParam(name = "dpi_esposo") String dpi_esposo,
             @WebParam(name = "dpi_esposa") String dpi_esposa) {        
@@ -133,6 +138,22 @@ public class RENAP {
                 System.out.println(ex);                
             }
             return "";
+    }
+     /**    
+     * @param dpi_esposo
+     * @param dpi_esposa
+     * @return true si se logró ejecutar el divorcio, de lo contrario false.
+     */
+    @WebMethod(operationName = "Divorciar")
+    public boolean Divorciar(@WebParam(name = "dpi_esposo") String dpi_esposo,
+            @WebParam(name = "dpi_esposa") String dpi_esposa) {        
+            MatrimonioQuery m = new MatrimonioQuery(dpi_esposo,dpi_esposa);            
+            try {                
+                return m.divorciar() >0;                            
+            } catch (Exception ex) {
+                System.out.println(ex);                
+                return false;
+            }            
     }
     
     @WebMethod(operationName = "ReconocerHijo1")

@@ -23,7 +23,6 @@ public class RENAP {
     /**
      * Inscripcion de un ciudadano al registro
      *
-     * @param dpi
      * @param nombre1
      * @param nombre2
      * @param apellido1
@@ -36,7 +35,7 @@ public class RENAP {
      * @return
      */
     @WebMethod(operationName = "Inscribirciudadano")
-    public boolean inscribirCiudadano(@WebParam(name = "primer_nombre") String nombre1,
+    public String[] inscribirCiudadano(@WebParam(name = "primer_nombre") String nombre1,
             @WebParam(name = "segundo_nombre") String nombre2,
             @WebParam(name = "primer_apellido") String apellido1,
             @WebParam(name = "segundo_apellido") String apellido2,
@@ -48,11 +47,10 @@ public class RENAP {
 
         ServiciosCarlos inf = new ServiciosCarlos();
         try {
-            int res = inf.inscribirCiudadano(nombre1, nombre2, apellido1, apellido2, fechanac, genero, pais, dpto, municipio);
-            return res > 0;
+            return inf.inscribirCiudadano(nombre1, nombre2, apellido1, apellido2, fechanac, genero, pais, dpto, municipio);
         } catch (SQLException ex) {
             System.out.println(ex);
-            return false;
+            return new String[]{"Resultado: Fallido"};
         }
     }
 
@@ -109,8 +107,8 @@ public class RENAP {
             return "";
     }
     
-    @WebMethod(operationName = "ReconocerHijo")
-    public boolean reconocerHijo(@WebParam(name = "dpi_progenitor") String dpi_padre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
+    @WebMethod(operationName = "ReconocerHijo1")
+    public boolean reconocerHijo1(@WebParam(name = "dpi_padre") String dpi_padre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
         
         ServiciosJulio j = new ServiciosJulio();
         try {
@@ -124,8 +122,8 @@ public class RENAP {
             return false;
         }
     }
-    @WebMethod(operationName = "ReconocerHijo")
-    public boolean reconocerHijo(@WebParam(name = "dpi_padre") String dpi_padre, @WebParam(name="dpi_madre") String dpi_madre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
+    @WebMethod(operationName = "ReconocerHijo2")
+    public boolean reconocerHijo2(@WebParam(name = "dpi_padre") String dpi_padre, @WebParam(name="dpi_madre") String dpi_madre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
         
         ServiciosJulio j = new ServiciosJulio();
         try {

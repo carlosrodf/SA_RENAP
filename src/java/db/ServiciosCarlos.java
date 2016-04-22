@@ -28,7 +28,7 @@ public class ServiciosCarlos {
         this.conn = db.getConexion();
     }
 
-    public int inscribirCiudadano(String n1, String n2, String a1, String a2, String fecha, String gen, String pais, String dpto, String mun) throws SQLException {
+    public String[] inscribirCiudadano(String n1, String n2, String a1, String a2, String fecha, String gen, String pais, String dpto, String mun) throws SQLException {
 
         List<String[]> html = new ArrayList<>();
         html.add(new String[]{"Nombres", n1 + " " + n2});
@@ -53,9 +53,10 @@ public class ServiciosCarlos {
             query.setString(10, mun);
             query.setInt(11, 2);
             int r = query.executeUpdate();
-            return r;
+            
+            return new String[]{"Resultado: Exitoso","Correlativo: "+ datos[1],"Verificador: " + datos[2]};
         } else {
-            return -1;
+            return new String[]{"Resultado: Fallido"};
         }
     }
 

@@ -21,7 +21,12 @@ import javax.jws.WebParam;
 public class RENAP {
 
     /**
-     * Inscripcion de un ciudadano al registro
+     * Inscribe un nuevo ciudadano al registro como un menor de edad.
+     * Si la operacion es exitosa retorna un arreglo de tres posiciones,
+     * en la primera posicion el resultado de la operacion, en la segunda posicion
+     * el correlativo del ciudadano y en la tercera posicion el codigo verificador del
+     * ciudadano. Estos codigos sirven para solicitar la emision de un DPI.
+     * Si la operacion falla retorna un arreglo de una posicion.
      *
      * @param nombre1
      * @param nombre2
@@ -32,7 +37,7 @@ public class RENAP {
      * @param pais
      * @param dpto
      * @param municipio
-     * @return
+     * @return Arreglo de tipo String[] con el resultado de la operacion
      */
     @WebMethod(operationName = "Inscribirciudadano")
     public String[] inscribirCiudadano(@WebParam(name = "primer_nombre") String nombre1,
@@ -54,6 +59,14 @@ public class RENAP {
         }
     }
 
+    /**
+     * Retorna el certificado de nacimiento del ciudadano que tenga el correlativo
+     * y verificador ingresados.
+     * 
+     * @param correlativo
+     * @param verificador
+     * @return Certificado de nacimiento del ciudadano
+     */
     @WebMethod(operationName = "ObtenerCertificadoNacimiento")
     public String obtenerCertificadoNacimiento(@WebParam(name = "correlativo") String correlativo,
             @WebParam(name = "verificador") String verificador) {
@@ -61,7 +74,15 @@ public class RENAP {
         ServiciosCarlos inf = new ServiciosCarlos();
         return inf.obtenerCertificadoNacimiento(correlativo, verificador);
     }
-    
+    /**
+     * Genera un numero de DPI para el ciudadano con el correlativo y
+     * verificador ingresados y lo retorna en el siguiente formato
+     * "XXXX XXXXX XXXX"
+     * 
+     * @param correlativo
+     * @param verificador
+     * @return El DPI del ciudadano
+     */
     @WebMethod(operationName = "EmisionDPI")
     public String EmisionDPI(@WebParam(name = "correlativo") String correlativo,
             @WebParam(name = "verificador") String verificador) {
@@ -70,6 +91,13 @@ public class RENAP {
         return inf.emisionDPI(correlativo, verificador);
     }
     
+    /**
+     * Retorna el nombre y el apellido del ciudadano que tenga
+     * el numero de DPI ingresado.
+     * 
+     * @param dpi
+     * @return Nombre y apellido del ciudadano
+     */
     @WebMethod(operationName = "ConsultaCiudadana")
     public String ConsultaCiudadana(@WebParam(name = "DPI") String dpi) {
 

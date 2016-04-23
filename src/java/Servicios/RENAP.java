@@ -156,6 +156,14 @@ public class RENAP {
             }            
     }
     
+    /**
+     * Relaciona a un hijo con un padre.
+     * 
+     * @param  dpi_padre El DPI del padre.
+     * @param  correlativo El correlativo del hijo.
+     * @param verificador  El verificador del hijo.
+     * @return true si tuvo éxito, de lo contrario false.
+     */
     @WebMethod(operationName = "ReconocerHijo1")
     public boolean reconocerHijo1(@WebParam(name = "dpi_padre") String dpi_padre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
         
@@ -171,6 +179,16 @@ public class RENAP {
             return false;
         }
     }
+    
+    /**
+     * Relaciona a un hijo con sus dos antecesores.
+     * 
+     * @param  dpi_padre El DPI del padre.
+     * @param dpi_madre El DPI de la madre.
+     * @param  correlativo El correlativo del hijo.
+     * @param verificador  El verificador del hijo.
+     * @return true si tuvo éxito, de lo contrario false.
+     */
     @WebMethod(operationName = "ReconocerHijo2")
     public boolean reconocerHijo2(@WebParam(name = "dpi_padre") String dpi_padre, @WebParam(name="dpi_madre") String dpi_madre, @WebParam(name="correlativo")String correlativo, @WebParam(name="verificador")String verificador){
         
@@ -186,6 +204,13 @@ public class RENAP {
             return false;
         }
     }
+    
+    /**
+     * Declara en bancarrota al ciudadano.
+     * 
+     * @param dpi El DPI del ciudadano.
+     * @return true si tuvo éxito, de lo contrario false.
+     */
     @WebMethod(operationName = "DeclararBancarrota")
     public boolean declararBancarrota(@WebParam(name="dpi") String dpi){
         ServiciosJulio j = new ServiciosJulio();
@@ -200,6 +225,13 @@ public class RENAP {
             return false;
         }
     }
+    
+    /**
+     * Recupera de la bancarrota al ciudadano.
+     * 
+     * @param dpi El DPI del ciudadano.
+     * @return true si tuvo éxito, de lo contrario false.
+     */
     @WebMethod(operationName = "RehabilitarBancarrota")
     public boolean rehabilitarBancarrota(@WebParam(name="dpi") String dpi){
         ServiciosJulio j = new ServiciosJulio();
@@ -214,6 +246,15 @@ public class RENAP {
             return false;
         }
     }
+    
+    /**
+     * Declara muerto al ciudadano.
+     * 
+     * @param dpi El DPI del ciudadano.
+     * @param fecha fecha de la muerte.
+     * @param causamuerte Causa de la muerte.
+     * @return true si tuvo éxito, de lo contrario false.
+     */
     @WebMethod(operationName = "NotificarDefuncion")
     public boolean notificarDefuncion(@WebParam(name="dpi") String dpi,@WebParam(name="fecha") String fecha,@WebParam(name="causademuerte") String causamuerte){
         ServiciosJulio j = new ServiciosJulio();
@@ -228,6 +269,12 @@ public class RENAP {
             return false;
         }
     }
+    
+    /**
+     * Devuelve una tabla con las tarifas.
+     * 
+     * @return La tabla con las tarifas en formato html.
+     */
     @WebMethod(operationName = "ConsultarTarifario")
     public String tarifario(){
         ServiciosJulio j = new ServiciosJulio();

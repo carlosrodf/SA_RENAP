@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/SA_RENAP/RENAP?wsdl" uri="src/conf/xml-resources/web-service-references/RENAP/wsdl/localhost_8080/SA_RENAP/RENAP.wsdl"/>
+    <system systemId="http://localhost:8080/SA_RENAP/RENAP?xsd=1" uri="src/conf/xml-resources/web-service-references/RENAP/wsdl/localhost_8080/SA_RENAP/RENAP.xsd_1.xsd"/>
+    <system systemId="http://ec2-54-186-237-148.us-west-2.compute.amazonaws.com:8080/Proyecto_SA/RENAP?WSDL" uri="src/conf/xml-resources/web-service-references/RENAP/wsdl/ec2-54-186-237-148.us-west-2.compute.amazonaws.com_8080/Proyecto_SA/RENAP.wsdl"/>
+    <system systemId="http://ec2-54-186-237-148.us-west-2.compute.amazonaws.com:8080/Proyecto_SA/RENAP?xsd=1" uri="src/conf/xml-resources/web-service-references/RENAP/wsdl/ec2-54-186-237-148.us-west-2.compute.amazonaws.com_8080/Proyecto_SA/RENAP.xsd_1.xsd"/>
+</catalog>

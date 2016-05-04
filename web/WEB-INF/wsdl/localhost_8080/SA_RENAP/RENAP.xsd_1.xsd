@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://Servicios/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://Servicios/">
+
+<xs:element name="ConsultaCiudadana" type="tns:ConsultaCiudadana"/>
+
+<xs:element name="ConsultaCiudadanaResponse" type="tns:ConsultaCiudadanaResponse"/>
+
+<xs:element name="ConsultarTarifario" type="tns:ConsultarTarifario"/>
+
+<xs:element name="ConsultarTarifarioResponse" type="tns:ConsultarTarifarioResponse"/>
+
+<xs:element name="DeclararBancarrota" type="tns:DeclararBancarrota"/>
+
+<xs:element name="DeclararBancarrotaResponse" type="tns:DeclararBancarrotaResponse"/>
+
+<xs:element name="Divorciar" type="tns:Divorciar"/>
+
+<xs:element name="DivorciarResponse" type="tns:DivorciarResponse"/>
+
+<xs:element name="EmisionDPI" type="tns:EmisionDPI"/>
+
+<xs:element name="EmisionDPIResponse" type="tns:EmisionDPIResponse"/>
+
+<xs:element name="InscribirMatrimonio" type="tns:InscribirMatrimonio"/>
+
+<xs:element name="InscribirMatrimonioResponse" type="tns:InscribirMatrimonioResponse"/>
+
+<xs:element name="Inscribirciudadano" type="tns:Inscribirciudadano"/>
+
+<xs:element name="InscribirciudadanoResponse" type="tns:InscribirciudadanoResponse"/>
+
+<xs:element name="NotificarDefuncion" type="tns:NotificarDefuncion"/>
+
+<xs:element name="NotificarDefuncionResponse" type="tns:NotificarDefuncionResponse"/>
+
+<xs:element name="ObtenerCertificadoMatrimonio" type="tns:ObtenerCertificadoMatrimonio"/>
+
+<xs:element name="ObtenerCertificadoMatrimonioResponse" type="tns:ObtenerCertificadoMatrimonioResponse"/>
+
+<xs:element name="ObtenerCertificadoNacimiento" type="tns:ObtenerCertificadoNacimiento"/>
+
+<xs:element name="ObtenerCertificadoNacimientoResponse" type="tns:ObtenerCertificadoNacimientoResponse"/>
+
+<xs:element name="ReconocerHijo1" type="tns:ReconocerHijo1"/>
+
+<xs:element name="ReconocerHijo1Response" type="tns:ReconocerHijo1Response"/>
+
+<xs:element name="ReconocerHijo2" type="tns:ReconocerHijo2"/>
+
+<xs:element name="ReconocerHijo2Response" type="tns:ReconocerHijo2Response"/>
+
+<xs:element name="RehabilitarBancarrota" type="tns:RehabilitarBancarrota"/>
+
+<xs:element name="RehabilitarBancarrotaResponse" type="tns:RehabilitarBancarrotaResponse"/>
+
+<xs:complexType name="Divorciar">
+<xs:sequence>
+<xs:element name="dpi_esposo" type="xs:string" minOccurs="0"/>
+<xs:element name="dpi_esposa" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="DivorciarResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ConsultaCiudadana">
+<xs:sequence>
+<xs:element name="DPI" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ConsultaCiudadanaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ObtenerCertificadoNacimiento">
+<xs:sequence>
+<xs:element name="correlativo" type="xs:string" minOccurs="0"/>
+<xs:element name="verificador" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ObtenerCertificadoNacimientoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Inscribirciudadano">
+<xs:sequence>
+<xs:element name="primer_nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="segundo_nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="primer_apellido" type="xs:string" minOccurs="0"/>
+<xs:element name="segundo_apellido" type="xs:string" minOccurs="0"/>
+<xs:element name="fecha_nacimiento" type="xs:string" minOccurs="0"/>
+<xs:element name="genero" type="xs:string" minOccurs="0"/>
+<xs:element name="pais" type="xs:string" minOccurs="0"/>
+<xs:element name="departamento" type="xs:string" minOccurs="0"/>
+<xs:element name="municipio" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="InscribirciudadanoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="DeclararBancarrota">
+<xs:sequence>
+<xs:element name="dpi" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="DeclararBancarrotaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RehabilitarBancarrota">
+<xs:sequence>
+<xs:element name="dpi" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RehabilitarBancarrotaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ConsultarTarifario">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="ConsultarTarifarioResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="InscribirMatrimonio">
+<xs:sequence>
+<xs:element name="dpi_esposo" type="xs:string" minOccurs="0"/>
+<xs:element name="dpi_esposa" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="InscribirMatrimonioResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ReconocerHijo1">
+<xs:sequence>
+<xs:element name="dpi_padre" type="xs:string" minOccurs="0"/>
+<xs:element name="correlativo" type="xs:string" minOccurs="0"/>
+<xs:element name="verificador" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ReconocerHijo1Response">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ObtenerCertificadoMatrimonio">
+<xs:sequence>
+<xs:element name="dpi_esposo" type="xs:string" minOccurs="0"/>
+<xs:element name="dpi_esposa" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ObtenerCertificadoMatrimonioResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="NotificarDefuncion">
+<xs:sequence>
+<xs:element name="dpi" type="xs:string" minOccurs="0"/>
+<xs:element name="fecha" type="xs:string" minOccurs="0"/>
+<xs:element name="causademuerte" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="NotificarDefuncionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ReconocerHijo2">
+<xs:sequence>
+<xs:element name="dpi_padre" type="xs:string" minOccurs="0"/>
+<xs:element name="dpi_madre" type="xs:string" minOccurs="0"/>
+<xs:element name="correlativo" type="xs:string" minOccurs="0"/>
+<xs:element name="verificador" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ReconocerHijo2Response">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="EmisionDPI">
+<xs:sequence>
+<xs:element name="correlativo" type="xs:string" minOccurs="0"/>
+<xs:element name="verificador" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="EmisionDPIResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

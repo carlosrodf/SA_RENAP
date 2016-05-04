@@ -28,7 +28,7 @@ public class dbConn {
     private final Connection conn;
 
     public dbConn() {
-        this.url = "jdbc:mysql://ec2-54-186-237-148.us-west-2.compute.amazonaws.com:3306/mydb";
+        this.url = "jdbc:mysql://localhost:3306/mydb";
         this.username = "root";
         this.password = "admin";
         this.conn = getConexion();

@@ -4,7 +4,7 @@
         *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
         *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
 
-        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+        --><project xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:xalan="http://xml.apache.org/xslt">
     <!--
                 ===================
                 JAX-WS WSGEN SECTION
@@ -32,4 +32,32 @@
                 JAX-WS WSIMPORT SECTION
                 ===================
             -->
+    <target name="wsimport-init" depends="init">
+        <fail if="${wsimport.bad.version}" message="WsImport ant task defined in the classpath ${j2ee.platform.wsimport.classpath} has a serious bug. See http://wiki.netbeans.org/MetroIssue for details."/>
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <property name="j2ee.platform.wsimport.classpath" value="${libs.jaxws21.classpath}"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${java.home}/../lib/tools.jar:${j2ee.platform.wsimport.classpath}:${javac.classpath}"/>
+        </taskdef>
+        <condition property="conf-dir" value="${conf.dir}/" else="">
+            <isset property="conf.dir"/>
+        </condition>
+    </target>
+    <target name="wsimport-client-RENAP" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/RENAP"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RENAP" destdir="${build.generated.dir}/jax-wsCache/RENAP" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/RENAP/wsdl/ec2-54-186-237-148.us-west-2.compute.amazonaws.com_8080/Proyecto_SA/RENAP.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://ec2-54-186-237-148.us-west-2.compute.amazonaws.com:8080/Proyecto_SA/RENAP?WSDL" xnocompile="true" xendorsed="true" package="Clientes">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/RENAP/wsdl/ec2-54-186-237-148.us-west-2.compute.amazonaws.com_8080/Proyecto_SA/RENAP.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/RENAP"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/RENAP">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-RENAP" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/Clientes"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/RENAP"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-RENAP"/>
 </project>

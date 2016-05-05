@@ -23,12 +23,13 @@ import javax.xml.ws.WebServiceRef;
  */
 @ManagedBean
 public class clientBean {
+
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/ec2-54-186-237-148.us-west-2.compute.amazonaws.com_8080/Proyecto_SA/RENAP.wsdl")
     private RENAP_Service service;
 
     private Date fechanac;
     private Map<String, String> generos;
-    
+
     private String nombre1;
     private String nombre2;
     private String apellido1;
@@ -37,33 +38,54 @@ public class clientBean {
     private String pais;
     private String departamento;
     private String municipio;
-    
+    private String respuestaR;
+
+    private String correlativo;
+    private String verificador;
+    private String respuestaE;
+
     @PostConstruct
     public void init() {
         generos = new HashMap<>();
-        generos.put("Masculino","M");
-        generos.put("Femenino","F");
+        generos.put("Masculino", "M");
+        generos.put("Femenino", "F");
     }
-    
-    public String registrar(){
+
+    public String emitirDPI() {
+
+        this.respuestaE = emisionDPI(correlativo, verificador);
+        
+        FacesContext.getCurrentInstance().addMessage(
+                null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Emision de DPI",
+                        respuestaE));
+        return "index";
+    }
+
+    public String registrar() {
+        this.respuestaR = "";
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
         String date = DATE_FORMAT.format(fechanac);
         String datos = "";
 
         List<String> result = this.inscribirciudadano(nombre1, nombre1, apellido1, apellido1, date, genero, pais, departamento, municipio);
-        
-        try{
+
+        try {
             datos = result.get(1);
-        }catch(Exception e){
+            datos += " - " + result.get(2);
+            this.respuestaR = datos;
+        } catch (Exception e) {
             datos = "Error";
+            this.respuestaR = datos;
         }
-        
+
         FacesContext.getCurrentInstance().addMessage(
                 null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         result.get(0),
                         datos));
-        
+
         return "index";
     }
 
@@ -147,11 +169,50 @@ public class clientBean {
         this.municipio = municipio;
     }
 
+    public String getCorrelativo() {
+        return correlativo;
+    }
+
+    public void setCorrelativo(String correlativo) {
+        this.correlativo = correlativo;
+    }
+
+    public String getVerificador() {
+        return verificador;
+    }
+
+    public void setVerificador(String verificador) {
+        this.verificador = verificador;
+    }
+
+    public String getRespuestaR() {
+        return respuestaR;
+    }
+
+    public void setRespuestaR(String respuestaR) {
+        this.respuestaR = respuestaR;
+    }
+
+    public String getRespuestaE() {
+        return respuestaE;
+    }
+
+    public void setRespuestaE(String respuestaE) {
+        this.respuestaE = respuestaE;
+    }
+
     private java.util.List<java.lang.String> inscribirciudadano(java.lang.String primerNombre, java.lang.String segundoNombre, java.lang.String primerApellido, java.lang.String segundoApellido, java.lang.String fechaNacimiento, java.lang.String genero, java.lang.String pais, java.lang.String departamento, java.lang.String municipio) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         Clientes.RENAP port = service.getRENAPPort();
         return port.inscribirciudadano(primerNombre, segundoNombre, primerApellido, segundoApellido, fechaNacimiento, genero, pais, departamento, municipio);
     }
-    
+
+    private String emisionDPI(java.lang.String correlativo, java.lang.String verificador) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        Clientes.RENAP port = service.getRENAPPort();
+        return port.emisionDPI(correlativo, verificador);
+    }
+
 }

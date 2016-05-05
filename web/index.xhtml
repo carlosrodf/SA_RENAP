@@ -19,8 +19,8 @@
 
                 <p:layoutUnit position="center">
 
-                    <h:form>
-                        <p:growl id="growl" showDetail="true" sticky="true" /> 
+                    <h:form id="form1">
+                        <p:growl id="growl" sticky="false" /> 
                         <p:panel id="pnl" header="Inscripcion">
 
                             <h:panelGrid columns="1">
@@ -58,13 +58,42 @@
                             </h:panelGrid>
 
                             <p:separator />
-
-                            <p:commandButton update="growl" value="Registrar ciudadano" actionListener="#{clientBean.registrar}" icon="ui-icon-check" />
+                            
+                            <h:panelGrid columns="2">
+                                <p:commandButton update="form1" value="Registrar ciudadano" actionListener="#{clientBean.registrar}" icon="ui-icon-check" />
+                                <h:outputText id="respuestaR" value="#{clientBean.respuestaR}" />
+                            </h:panelGrid>
 
                         </p:panel>
                     </h:form>
 
+                    <h:form id="form2">
+                        <p:growl id="growl" showDetail="true" sticky="true" /> 
+                        <p:panel id="pnl" header="Solicitar DPI">
+                            <h:panelGrid columns="1">
+
+                                <h:panelGrid columns="4">
+                                    <h:outputText value="Correlativo:" />
+                                    <p:inputText required="true" id="correlativo" value="#{clientBean.correlativo}" />
+                                    <h:outputText value="Verificador:" />
+                                    <p:inputText required="true" id="verificador" value="#{clientBean.verificador}" />
+                                </h:panelGrid>
+
+                                <p:separator />
+
+                                <h:panelGrid columns="2">
+                                    <p:commandButton update="form2" value="Solicitar" actionListener="#{clientBean.emitirDPI}" icon="ui-icon-check" />
+                                    <h:outputText id="respuestaE" value="#{clientBean.respuestaE}" />
+                                </h:panelGrid>
+                                
+
+                            </h:panelGrid>  
+                        </p:panel>
+                    </h:form>
+
                 </p:layoutUnit>
+
+
 
             </p:layout>
 
